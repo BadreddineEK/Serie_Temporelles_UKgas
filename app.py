@@ -224,7 +224,7 @@ test  = df.iloc[-4:]
 def plot_layout(**kwargs):
     """Base layout compatible dark & light mode."""
     base = dict(
-        template='plotly',          # adaptatif (pas plotly_dark forcé)
+        template='plotly',
         paper_bgcolor='rgba(0,0,0,0)',
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(family='Inter', size=12),
@@ -650,11 +650,11 @@ with tab3:
             line=dict(color=color, width=1.8, dash='dot'),
         ))
     fig_hw.add_vrect(
-        x0=train.index[-1], x1=future_dates_hw[-1],
+        x0=train.index[-1].isoformat(), x1=future_dates_hw[-1].isoformat(),
         fillcolor='rgba(0,0,0,0.03)', line_width=0,
     )
     fig_hw.add_vline(
-        x=train.index[-1], line_dash='dash',
+        x=train.index[-1].isoformat(), line_dash='dash',
         line_color='rgba(128,128,128,0.5)',
         annotation_text=' Train / Test',
         annotation_position='top left',
@@ -908,7 +908,7 @@ with tab4:
                 line=dict(color='rgba(0,0,0,0)'), name='Intervalle de confiance 95%',
             ))
             fig_fc.add_vline(
-                x=df.index[-1], line_dash='dash',
+                x=df.index[-1].isoformat(), line_dash='dash',
                 line_color='rgba(128,128,128,0.5)',
                 annotation_text=' Fin données observées',
             )
@@ -1128,7 +1128,7 @@ with tab5:
                 line=dict(color='rgba(0,0,0,0)'), name='IC 95%',
             ))
             fig_fcs.add_vline(
-                x=train.index[-1], line_dash='dash',
+                x=train.index[-1].isoformat(), line_dash='dash',
                 line_color='rgba(128,128,128,0.5)',
                 annotation_text=' Fin données observées',
             )
@@ -1236,7 +1236,7 @@ with tab5:
                 name='SARIMA', line=dict(color=COLORS['forecast'], width=2, dash='dot'),
             ))
             fig_comp.add_vline(
-                x=df.index[-1], line_dash='dash',
+                x=df.index[-1].isoformat(), line_dash='dash',
                 line_color='rgba(128,128,128,0.5)',
             )
             fig_comp.update_layout(
