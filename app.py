@@ -251,6 +251,42 @@ COLORS = {
 }
 
 # ─────────────────────────────────────────────────────────────
+# HELPER — add_vline workaround (Plotly datetime bug)
+# ─────────────────────────────────────────────────────────────
+def add_vline_dt(fig, x_ts, label=None, color='rgba(128,128,128,0.5)', dash='dash', row=None, col=None):
+    """
+    Workaround for Plotly bug with datetime x-values in add_vline.
+    Uses add_shape + add_annotation instead.
+    """
+    x_str = x_ts.isoformat() if hasattr(x_ts, 'isoformat') else str(x_ts)
+    shape_kwargs = dict(
+        type='line',
+        xref='x', yref='paper',
+        x0=x_str, x1=x_str,
+        y0=0, y1=1,
+        line=dict(color=color, dash=dash, width=1.5),
+    )
+    if row is not None and col is not None:
+        shape_kwargs['row'] = row
+        shape_kwargs['col'] = col
+    fig.add_shape(**shape_kwargs)
+    if label:
+        annot_kwargs = dict(
+            x=x_str, y=1,
+            xref='x', yref='paper',
+            text=label,
+            showarrow=False,
+            xanchor='left',
+            yanchor='top',
+            font=dict(size=11, color=color),
+            bgcolor='rgba(255,255,255,0)',
+        )
+        if row is not None and col is not None:
+            annot_kwargs['row'] = row
+            annot_kwargs['col'] = col
+        fig.add_annotation(**annot_kwargs)
+
+# ─────────────────────────────────────────────────────────────
 # HERO
 # ─────────────────────────────────────────────────────────────
 st.markdown("""
@@ -653,12 +689,7 @@ with tab3:
         x0=train.index[-1].isoformat(), x1=future_dates_hw[-1].isoformat(),
         fillcolor='rgba(0,0,0,0.03)', line_width=0,
     )
-    fig_hw.add_vline(
-        x=train.index[-1].isoformat(), line_dash='dash',
-        line_color='rgba(128,128,128,0.5)',
-        annotation_text=' Train / Test',
-        annotation_position='top left',
-    )
+    add_vline_dt(fig_hw, train.index[-1], label=' Train / Test')
     fig_hw.update_layout(
         height=480,
         **plot_layout(title='Lissage exponentiel — ajustement sur le train & prévisions')
@@ -907,11 +938,7 @@ with tab4:
                 fill='toself', fillcolor=COLORS['ci'],
                 line=dict(color='rgba(0,0,0,0)'), name='Intervalle de confiance 95%',
             ))
-            fig_fc.add_vline(
-                x=df.index[-1].isoformat(), line_dash='dash',
-                line_color='rgba(128,128,128,0.5)',
-                annotation_text=' Fin données observées',
-            )
+            add_vline_dt(fig_fc, df.index[-1], label=' Fin données observées')
             fig_fc.update_layout(
                 height=480,
                 **plot_layout(title='Prévisions AR(4) — 20 trimestres avec IC 95%')
@@ -1127,11 +1154,7 @@ with tab5:
                 fill='toself', fillcolor=COLORS['ci'],
                 line=dict(color='rgba(0,0,0,0)'), name='IC 95%',
             ))
-            fig_fcs.add_vline(
-                x=train.index[-1].isoformat(), line_dash='dash',
-                line_color='rgba(128,128,128,0.5)',
-                annotation_text=' Fin données observées',
-            )
+            add_vline_dt(fig_fcs, train.index[-1], label=' Fin données observées')
             fig_fcs.update_layout(
                 height=500,
                 **plot_layout(title=f'Prévisions {sarima_label2} — {forecast_h_s} trimestres')
@@ -1235,10 +1258,7 @@ with tab5:
                 x=fut_comp, y=sar_fc16,
                 name='SARIMA', line=dict(color=COLORS['forecast'], width=2, dash='dot'),
             ))
-            fig_comp.add_vline(
-                x=df.index[-1].isoformat(), line_dash='dash',
-                line_color='rgba(128,128,128,0.5)',
-            )
+            add_vline_dt(fig_comp, df.index[-1])
             fig_comp.update_layout(
                 height=460,
                 **plot_layout(title='Prévisions comparées — 16 trimestres post-1986')
