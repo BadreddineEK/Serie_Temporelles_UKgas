@@ -3,10 +3,14 @@
 > Analyse complète de la consommation trimestrielle de gaz au Royaume-Uni (1960–1986)  
 > TP Séries Temporelles · Polytech Lyon MAM 4A · 2023
 
+[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://serie-temporelles-ukgas.streamlit.app/)
+
 ## 📊 Description
 
 App Streamlit interactive réécrivant en Python l'analyse R originale de la série temporelle **UKgas**  
 (108 observations trimestrielles, 1960–1986).
+
+🚀 **Live demo** → [serie-temporelles-ukgas.streamlit.app](https://serie-temporelles-ukgas.streamlit.app/)
 
 ## 🧠 Démarche Box-Jenkins — A → Z
 
