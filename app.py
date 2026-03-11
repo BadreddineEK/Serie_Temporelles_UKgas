@@ -320,8 +320,8 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 with tab1:
     st.markdown('<span class="section-tag">Étape 1 / 5 — Description & visualisation de la série</span>', unsafe_allow_html=True)
     st.markdown("""### Présentation de la série UKgas
-    La série **UKgas** représente la consommation trimestrielle de gaz au Royaume-Uni entre 1960 et 1986, 
-    exprimée en **therms** (unité britannique d'énergie). Avec 4 observations par an, elle présente 
+    La série **UKgas** représente la consommation trimestrielle de gaz au Royaume-Uni entre 1960 et 1986,
+    exprimée en **therms** (unité britannique d'énergie). Avec 4 observations par an, elle présente
     une **saisonnalité d'ordre 4** (consommation hivernale plus forte) et une **tendance croissante**.
     """)
 
@@ -357,8 +357,8 @@ with tab1:
     💡 <strong>Pourquoi passer au logarithme ?</strong><br>
     La série brute suit un <em>modèle multiplicatif</em> X<sub>t</sub> = T<sub>t</sub> × S<sub>t</sub> × ε<sub>t</sub> :
     l'amplitude des oscillations saisonnières augmente avec la tendance (variance non stationnaire).
-    Le passage au log transforme ce modèle en un <em>modèle additif</em> 
-    log(X<sub>t</sub>) = log(T<sub>t</sub>) + log(S<sub>t</sub>) + log(ε<sub>t</sub>), 
+    Le passage au log transforme ce modèle en un <em>modèle additif</em>
+    log(X<sub>t</sub>) = log(T<sub>t</sub>) + log(S<sub>t</sub>) + log(ε<sub>t</sub>),
     ce qui linéarise la tendance et homogénéise la variance.
     </div>
     """, unsafe_allow_html=True)
@@ -456,10 +456,10 @@ with tab2:
     comp_colors = [COLORS['primary'], COLORS['secondary'], COLORS['accent'], COLORS['warning']]
     comp_data   = [series_to_decompose, decomp.trend, decomp.seasonal, decomp.resid]
     comp_desc   = [
-        'La série log-transformée présente une tendance croissante et des oscillations saisonnières stables.',
-        'La tendance est globalement croissante jusqu'en 1975, puis se stabilise légèrement.',
-        'La saisonnalité est annuelle (ordre 4) : forte en hiver, faible en été.',
-        'Les résidus doivent ressembler à un bruit blanc pour valider le modèle.'
+        "La série log-transformée présente une tendance croissante et des oscillations saisonnières stables.",
+        "La tendance est globalement croissante jusqu'en 1975, puis se stabilise légèrement.",
+        "La saisonnalité est annuelle (ordre 4) : forte en hiver, faible en été.",
+        "Les résidus doivent ressembler à un bruit blanc pour valider le modèle.",
     ]
 
     fig = make_subplots(
@@ -843,7 +843,7 @@ with tab4:
             for col_n in [1, 2]:
                 fig_ap4.add_hline(y= ci_ar4, line_dash='dash', line_color=COLORS['warning'], opacity=0.8, row=1, col=col_n)
                 fig_ap4.add_hline(y=-ci_ar4, line_dash='dash', line_color=COLORS['warning'], opacity=0.8, row=1, col=col_n)
-            fig_ap4.update_layout(height=320, **plot_layout(title='Résidus AR(4) — absence d\'autocorrélation ✅'))
+            fig_ap4.update_layout(height=320, **plot_layout(title="Résidus AR(4) — absence d'autocorrélation ✅"))
             st.plotly_chart(fig_ap4, use_container_width=True)
 
         with col2:
@@ -862,7 +862,7 @@ with tab4:
 
         # Ljung-Box
         lb = acorr_ljungbox(resid_ar4, lags=[1,2,3,4], return_df=True)
-        st.markdown('**Test de Ljung-Box (portmanteau) — H₀ : pas d\'autocorrélation résiduelle**')
+        st.markdown("**Test de Ljung-Box (portmanteau) — H₀ : pas d'autocorrélation résiduelle**")
         lb_display = lb[['lb_stat', 'lb_pvalue']].rename(
             columns={'lb_stat': 'X² statistique', 'lb_pvalue': 'p-value'}
         )
@@ -1143,8 +1143,8 @@ with tab5:
 
     # ── Bilan
     with tabs_sarima[3]:
-        st.markdown('### 🏆 Bilan comparatif — toutes méthodes')
-        st.markdown('Performances sur le jeu de **test 1986** (4 trimestres, données non vues lors de l\'entraînement)')
+        st.markdown("### 🏆 Bilan comparatif — toutes méthodes")
+        st.markdown("Performances sur le jeu de **test 1986** (4 trimestres, données non vues lors de l'entraînement)")
 
         try:
             test_v = test['ukgas'].values
